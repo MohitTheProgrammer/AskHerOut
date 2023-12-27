@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ask Her Out</title>
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("ofaNUy4fTPOu81751");
+      })();
+    </script>
     <style>
       * {
         margin: 0;
@@ -22,13 +30,17 @@
         height: 70%;
         width: 60%;
         position: relative;
+        border: 1px solid red;
       }
       h1 {
         color: rgb(255, 255, 255);
-        font-size: 39px;
+        font-size: 2.4rem;
         position: absolute;
+        text-transform: capitalize;
         left: 50%;
         top: 10%;
+        width: auto;
+        text-align: center;
         transform: translateX(-50%);
         text-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3),
           0px -4px 10px rgba(255, 255, 255, 0.3);
@@ -85,7 +97,7 @@
         h1 {
           width: 100%;
           text-align: center;
-          font-size: 1.8rem;
+          font-size: 1.4rem;
         }
       }
       .btn {
@@ -131,13 +143,56 @@
   <script>
     const clickedYes = async (x) => {
       img.src = "./img/gg.gif";
-      h1.innerHTML = "YEYYYYYYY!!!!!!!! I knew it";
+      h1.innerHTML = "YEAYYYYYYY!!!!!!!! I knew it";
       no.style.display = "none";
       x.style.display = "none";
+      // const email = translate()[1];
+      const name = translate()[0];
+      const nameVal = translate()[2];
+      // const emailVal = translate()[3];
+      const serviceID = "service_v4m858m";
+      const tempID = "template_4sbzub5";
+      const params = {
+        name: `${name ? name : nameVal}`,
+        email: `${name ? name : nameVal}@gmail.com`,
+        message: `${name ? name : nameVal} said YES!`,
+      };
+
+      emailjs
+        .send(serviceID, tempID, params)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
     };
     const hover = () => {
       no.style.bottom = `${Math.floor(Math.random() * 81) + 20}%`;
       no.style.left = `${Math.floor(Math.random() * 61) + 20}%`;
     };
+    const setDOM = () => {
+      const name = translate()[0];
+      const nameVal = translate()[2];
+      h1.innerHTML = `${name ? name : nameVal} Do you wanna go out with me`;
+    };
+    setDOM();
+    function translate() {
+      const href = location.href;
+      const name = href.split("?")[1];
+      const email = name.split("email")[1];
+      let emailSTR = "";
+      let nameSTR = "";
+      let readableName = "";
+      let readableEmail = "";
+      for (let i = 5; i < name.length; i++) {
+        if (name[i] !== "&") nameSTR += name[i];
+        else break;
+      }
+      for (let i = 1; i < email.length; i++) emailSTR += email[i];
+      try {
+        readableName = window.atob(nameSTR);
+      } catch (err) {}
+      try {
+        readableEmail = window.atob(emailSTR);
+      } catch (err) {}
+      return [readableName, readableEmail, nameSTR, emailSTR];
+    }
   </script>
 </html>
