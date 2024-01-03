@@ -145,16 +145,16 @@
       h1.innerHTML = "YEAYYYYYYY!!!!!!!! I knew it";
       no.style.display = "none";
       x.style.display = "none";
-      // const email = translate()[1];
+      const email = translate()[1];
       const name = translate()[0];
       const nameVal = translate()[2];
-      // const emailVal = translate()[3];
+      const emailVal = translate()[3];
       const serviceID = "service_v4m858m";
       const tempID = "template_4sbzub5";
       const params = {
         name: `${name ? name : nameVal}`,
-        email: `${name ? name : nameVal}@gmail.com`,
-        message: `${name ? name : nameVal} said YES!`,
+        email: `${email ? email : emailVal}`,
+        message: `${name ? name : nameVal} said YES for go out`,
       };
 
       emailjs
