@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ask Her Out</title>
+
     <script
       type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
     ></script>
     <script type="text/javascript">
       (function () {
-        emailjs.init("ofaNUy4fTPOu81751");
+        emailjs.init("mP0WY_HkoBIf_EW9a");
       })();
     </script>
     <style>
@@ -140,27 +141,35 @@
     </div>
   </body>
   <script>
-    const clickedYes = async (x) => {
-      img.src = "./img/gg.gif";
-      h1.innerHTML = "YEAYYYYYYY!!!!!!!! I knew it";
-      no.style.display = "none";
-      x.style.display = "none";
-      const email = translate()[1];
-      const name = translate()[0];
-      const nameVal = translate()[2];
-      const emailVal = translate()[3];
-      const serviceID = "service_v4m858m";
-      const tempID = "template_4sbzub5";
-      const params = {
-        name: `${name ? name : nameVal}`,
-        email: `${email ? email : emailVal}`,
-        message: `${name ? name : nameVal} said YES for go out`,
-      };
+    const clickedYes = async (btn) => {
+      try {
+        // UI updates
+        img.src = "./img/gg.gif";
+        h1.innerHTML = "YEAYYYYYYY!!!!!!!! I knew it";
+        no.style.display = "none";
+        btn.style.display = "none";
 
-      emailjs
-        .send(serviceID, tempID, params)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        // Get data once
+        const [name, email] = translate() || [];
+
+        // EmailJS config
+        const serviceID = "service_v4m858m";
+        const tempID = "template_ug6cgna";
+
+        const params = {
+          name: name || "Unknown",
+          email: email || "No Email",
+          message: `${name || "Someone"} said YES for outing!!!`,
+        };
+
+        console.log("Sending email with params:", params);
+
+        // Send email
+        const res = await emailjs.send(serviceID, tempID, params);
+        console.log("Email sent successfully:", res);
+      } catch (err) {
+        console.error("Email sending failed:", err);
+      }
     };
     const hover = () => {
       no.style.bottom = `${Math.floor(Math.random() * 81) + 20}%`;
@@ -174,6 +183,7 @@
     setDOM();
     function translate() {
       const href = location.href;
+      console.log({ href });
       const name = href.split("?")[1];
       const email = name.split("email")[1];
       let emailSTR = "";
@@ -185,13 +195,10 @@
         else break;
       }
       for (let i = 1; i < email.length; i++) emailSTR += email[i];
-      try {
-        readableName = window.atob(nameSTR);
-      } catch (err) {}
-      try {
-        readableEmail = window.atob(emailSTR);
-      } catch (err) {}
-      return [readableName, readableEmail, nameSTR, emailSTR];
+
+      const result = [nameSTR, emailSTR];
+      console.log(result);
+      return result;
     }
   </script>
 </html>
