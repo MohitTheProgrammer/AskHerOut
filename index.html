@@ -162,8 +162,6 @@
           message: `${name || "Someone"} said YES for outing!!!`,
         };
 
-        console.log("Sending email with params:", params);
-
         // Send email
         const res = await emailjs.send(serviceID, tempID, params);
         console.log("Email sent successfully:", res);
@@ -183,7 +181,6 @@
     setDOM();
     function translate() {
       const href = location.href;
-      console.log({ href });
       const name = href.split("?")[1];
       const email = name.split("email")[1];
       let emailSTR = "";
@@ -197,7 +194,6 @@
       for (let i = 1; i < email.length; i++) emailSTR += email[i];
 
       const result = [nameSTR, emailSTR];
-      console.log(result);
       return result;
     }
   </script>
